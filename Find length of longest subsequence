@@ -1,0 +1,37 @@
+int dynamicProgramming(string &X,string &Y,int n,int m,vector<vector<int>>& dp)
+{
+    // Base Case
+    if (n==0 || m==0) return 0;
+    
+      // check if we have already solved it?
+      if(dp[n][m] != -1) return dp[n][m];
+  
+      
+    // Calls on smaller inputs
+    
+    // if the last char of both strings are equal
+    if(X[n-1] == Y[m-1])
+    {
+        return  dp[n][m] = 1 + dynamicProgramming(X,Y,n-1,m-1,dp);
+    }
+    
+    // if the last char of both strings are not equal
+    else
+    {
+        return dp[n][m] = dynamicProgramming(X,Y,n-1,m,dp);    //move only in subsequence part , can't skip any element in substring part
+    }
+}
+
+
+int maxSubsequenceSubstring(string X, string Y, int N, int M){
+     int n = X.size(),m = Y.size();
+      int maximum_length = 0; //as minimum length can be 0 only.
+  
+      vector<vector<int>> dp(n+1,vector<int>(m+1,-1));
+      for(int i = 0;i<=m;i++) // traversing for every length of Y.
+    {
+        int temp_ans = dynamicProgramming(X,Y,n,i,dp);
+          if(temp_ans > maximum_length) maximum_length = temp_ans;
+    }
+    return maximum_length;
+}
